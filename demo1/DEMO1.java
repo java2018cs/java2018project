@@ -1,30 +1,99 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+
+
 
 public class DEMO1 extends JFrame{
+	
+
     JFrame j = new JFrame("音樂HarHar玩");
     JLabel TableList=new JLabel("列表");
-    JButton BAdd=new JButton("添加歌曲");
     JButton BDelect=new JButton("删除歌曲");
     JButton BDelectTable=new JButton("清空列表");
+    
+    JButton BDo=new JButton("Do");
+    JButton BRe=new JButton("Re");
+    JButton BMi=new JButton("Mi");
+    JButton BFa=new JButton("Fa");
+    JButton BSol=new JButton("Sol");
+    JButton BLa=new JButton("La");
+    JButton BSi=new JButton("Si");
 
     JButton JbtnPlay = new JButton("播放");
     JButton JbtnStop = new JButton("停止");
     JButton JbtnPause = new JButton("暫停");
     JButton JbtnResume = new JButton("繼續");
     JPanel p=new JPanel();
-    JPanel p1=new JPanel(); //按鈕區域
-    JPanel p2=new JPanel(); //列表LABEL p1
-    JPanel p3=new JPanel(); //列表 p5
-    JPanel p4=new JPanel(); 
-    private ButtonHandler hbtHandler = new ButtonHandler();  //為按鈕註冊listener,用來處理按鈕事件
-   
+    JPanel p1=new JPanel(); //播放
+    JPanel p2=new JPanel(); //列表
+    JPanel p3=new JPanel(); //音
+    JPanel p4=new JPanel();
     
+    JPanel pg=new JPanel(); //guitar panel
+    JPanel pp=new JPanel(); //piano panel
+    JPanel pd=new JPanel(); //drum panel
+    JPanel pb=new JPanel(); //bass panel
+    //JTable tb1=new JTable(5,16);
+    
+    
+    private ButtonHandler hbtHandler = new ButtonHandler();  //為按鈕註冊listener,用來處理按鈕事件
+    
+    JButton BPiano = new JButton("鋼琴");
+    JButton BGuitar = new JButton("吉他");
+    JButton BBass = new JButton("Bass");
+    JButton BDrum = new JButton("鼓組");
+    
+    Guitar guitar = new Guitar();
+    JButton BaddLine = new JButton("新增");
+    JButton BdeleteLine = new JButton("刪除");
+    JButton BshowLine = new JButton("顯示");
+    
+    //JTable mTable = new JTable(15, 16);
+    
+    static DefaultTableModel tableModel = new DefaultTableModel(15,16);
+    static JTable tb1 = new JTable(tableModel){
+        public boolean isCellEditable(int row, int column)
+             {
+                        return false;//表格不允许被编辑
+             }
+    };
+    static JTable tb2 = new JTable(tableModel){
+        public boolean isCellEditable(int row, int column)
+             {
+                        return false;//表格不允许被编辑
+             }
+    }; 
+    static JTable tb3 = new JTable(tableModel){
+        public boolean isCellEditable(int row, int column)
+             {
+                        return false;//表格不允许被编辑
+             }
+    }; 
+    static JTable tb4 = new JTable(tableModel){
+        public boolean isCellEditable(int row, int column)
+             {
+                        return false;//表格不允许被编辑
+             }
+    }; 
 
     public DEMO1(){
         super("播放音樂測試");
         //設定視窗
+        
         j.setSize(1200,700);
         j.setLayout(null);
         j.getContentPane().setBackground(Color.BLACK);
@@ -33,21 +102,35 @@ public class DEMO1 extends JFrame{
         j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         p.setBounds(2, 563, 1180, 85);
         p.setLayout(new BorderLayout());
+        p.setBackground(new Color(255,255,255));
         
-        p1.setLayout(new GridLayout(2,2,20,20));
+        p1.setLayout(new GridLayout(1,4,20,20));
 
         p2.setBounds(2, 3, 298, 30);   
         p2.setBackground(new Color(255,255,255));
         TableList.setBounds(30, 100, 200, 50);
-        TableList.setFont(new Font("宋体",1, 20));
+        TableList.setFont(new Font("宋體",1, 20));
 
         p3.setBounds(2, 35, 298, 526);
-        p3.setLayout(null);
+        p3.setLayout(new GridLayout(5,1,0,10));
         p3.setBackground(new Color(255,255,255));
 
         //p4.setLayout(new GridLayout(2,0,200,10));
-        //p4.setBackground(new Color(255,255,255));
+        p4.setBackground(new Color(255,255,255));
 
+        pg.setBounds(302, 48, 880, 76);
+        pg.setBackground(new Color(0,0,0));
+        pp.setBounds(302, 192, 880, 76);
+        pp.setBackground(new Color(0,0,0));
+        pd.setBounds(302, 336, 880, 76);
+        pd.setBackground(new Color(0,0,0));
+        pb.setBounds(302, 480, 880, 76);
+        pb.setBackground(new Color(0,0,0));
+        pg.setLayout(new GridLayout(1,1));
+        pp.setLayout(new GridLayout(1,1));
+        pd.setLayout(new GridLayout(1,1));
+        pb.setLayout(new GridLayout(1,1));
+        	
         p2.add(TableList);
         JbtnPlay.setBackground(new Color(255,255,255));
         JbtnStop.setBackground(new Color(255,255,255));
@@ -59,23 +142,59 @@ public class DEMO1 extends JFrame{
         p1.setBackground(new Color(255,255,255));
         
         p3.add(p);
-        BAdd.setBounds(5,20, 90,30);
-        BAdd.setBackground(new Color(255,255,255));
-        p3.add(BAdd);
+        p3.add(BPiano);
+        p3.add(BGuitar);
+        p3.add(BDrum);
+        p3.add(BBass);
         
         p.add(p1,BorderLayout.WEST);
-        //p.add(p4,BorderLayout.CENTER);
-
+        //p.add(p4,BorderLayout.EAST);
+    
+        /*pg.add(BaddLine);
+        pg.add(BdeleteLine);
+        pg.add(BshowLine);*/
+        
+ 
+        
         j.add(p);
         j.add(p2);//列表 
         j.add(p3);//列表下方
-        
+        j.add(pg);
+        j.add(pp);
+        j.add(pd);
+        j.add(pb);
+        pg.add(tb1);
+        pd.add(tb2);
+        pp.add(tb3);
+        pb.add(tb4);
 
         JbtnResume.addActionListener(hbtHandler);
         JbtnPlay.addActionListener(hbtHandler);
         JbtnPause.addActionListener(hbtHandler);
         JbtnStop.addActionListener(hbtHandler);
+        BaddLine.addActionListener(hbtHandler);
+        BdeleteLine.addActionListener(hbtHandler);
+        BshowLine.addActionListener(hbtHandler);
     }
+    
+    /*public void setTable() {
+    	jTable.setColumnSelectionAllowed(true);
+    	jTable.addMouseListener(new MouseAdapter()
+    	{
+    	    @Override
+    	    public void mouseClicked(MouseEvent e)
+    	    {
+    	        if (e.getModifiers() == MouseEvent.BUTTON3_MASK)
+    	        {
+    	        	jTable.changeSelection(
+    	        		jTable.rowAtPoint(e.getPoint()), 
+    	        		jTable.columnAtPoint(e.getPoint()), 
+    	                false, false);
+    	        	jTable.setSelectionBackground(new Color(0,255,255));
+    	        }
+    	    }
+    	});
+    }*/
 
     private class ButtonHandler implements ActionListener, AudioPlayerCallback{
         AudioPlayer audio = null;
@@ -110,6 +229,18 @@ public class DEMO1 extends JFrame{
                 audio.resume();
                 return;
             }
+            
+            if(evtE.getSource() == BaddLine) {
+            	guitar.addMeasure();
+            }
+            
+            if(evtE.getSource() == BdeleteLine) {
+            	guitar.deleteMeasure();
+            }
+            
+            if(evtE.getSource() == BshowLine) {
+            	guitar.showMeasure();
+            }
         }
         
         public void audioPlayEnd(Object callbackObj) {
@@ -118,9 +249,6 @@ public class DEMO1 extends JFrame{
         }
     }
     
-    public static void main(String [] args){
-        DEMO1 id = new DEMO1();
-    }
-
+   
     
 }
