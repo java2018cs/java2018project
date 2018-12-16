@@ -34,6 +34,8 @@ public class menu extends JFrame
     j.add(img); 
     j.setVisible(true);
     start.addActionListener(handler);
+    help.addActionListener(handler);
+    exit.addActionListener(handler);
 	}
 	  
 	private class ButtonHandler implements ActionListener
@@ -48,7 +50,10 @@ public class menu extends JFrame
 			 }
 			 else if(E.getSource() == help)
 			 {
-				 
+				j.getContentPane().removeAll();
+				j.dispose();
+				new Help();
+				
 			 }
 			 else if(E.getSource() == exit)
 			 {           
